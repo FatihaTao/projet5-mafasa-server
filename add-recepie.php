@@ -1,11 +1,10 @@
 <?php
 include('connexion.php');
-include('header.php');
+// include('header.php');
 // Insert a new recepie
 print_r($_POST);
 if(isset($_POST['submit'])) {
-    $id = $_POST['id'];
-    $creator_id = $_POST['creator_id'];
+    $creator_id = 1;
     $title = $_POST['title'];
     $image = $_POST['image'];
     $description = $_POST['description'];
@@ -17,12 +16,17 @@ if(isset($_POST['submit'])) {
     $video = $_POST['video'];
     $rating = $_POST['rating'];
     
-$sql = "insert into recepie (creator_id, title, image, description, category, nbr_people, publishdate, prep_time, level, video, rating) VALUES ('$creator_id', '$title', '$image', '$description', '$category', '$nbr_people', '$publishdate', '$prep_time', '$level', '$video', '$rating')";
-$results = $bdd->query($sql);
+$sql = "insert into recettes (creator_id, title, image, description, category, nbr_people, publishdate, level, video, rating) VALUES ($creator_id, '$title', '$image', '$description', '$category', '$nbr_people', $publishdate, '$level', '$video', $rating)";
+var_dump($sql);
+//  die();
+$results = $bdd->exec($sql);
+//$bdd->exec($sql);
+var_dump($results);
     if ($results) {
-        echo "ok";
+        echo "Votre recette a bien été ajoutée! 😋";
     } else {
-        die("erreur:");
+        var_dump($bdd->errorInfo());
+    die();
     }
 header("location:list-recepie.php");   
 }
@@ -32,8 +36,8 @@ header("location:list-recepie.php");
         <form action="add-recepie.php" method="post" style="padding:150px">
             <h2>Formulaire d'ajout des recettes</h2>
 
-            <label for="creator_id">creator_id</label>
-            <input type="text" name="creator_id" placeholder="Votre pseudo">
+            <!-- <label for="creator_id">creator_id</label> -->
+            <!-- <input type="text" name="creator_id" placeholder="Votre pseudo"> -->
 
             <label for="title">title</label>
             <input type="text" name="title" placeholder="Entrez le nom de la recette">
@@ -48,7 +52,7 @@ header("location:list-recepie.php");
             <input type="text" name="category" placeholder="Ajoutez la catégorie de la recette">
 
             <label for="nbr_people">nombre de personne</label>
-            <input type="text" name="nbre_people" placeholder="nombre de personne">
+            <input type="text" name="nbr_people" placeholder="nombre de personne">
             
             <label for="publishdate">date de publication</label>
             <input type="date" name="publishdate" placeholder="publishdate">
