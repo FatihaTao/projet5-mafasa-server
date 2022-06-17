@@ -1,8 +1,9 @@
 <?php
 include('connexion.php');
 include('header.php');
+//faire une page menu admin pour faire l'include sur chaque page
 // Insert new admin
-print_r($_POST);
+//print_r($_POST);
 if(isset($_POST['submit'])) {
     $pseudo = $_POST['pseudo'];
     $email = $_POST['email'];
@@ -21,6 +22,7 @@ header("location:list-admin.php");
 ?>
 
 <section> <!--formulaire authentification des admins-->
+
         <form action="add-admin.php" method="post" style="padding:150px">
             <h2>Formulaire de création d'admin</h2>
             <label for="pseudo">Pseudo</label>
@@ -35,4 +37,5 @@ header("location:list-admin.php");
             <button type="submit" name="submit">Valider</button>
         </form>
 </section>
+
 

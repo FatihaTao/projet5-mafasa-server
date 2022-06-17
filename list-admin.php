@@ -4,10 +4,8 @@ include('header.php');
 
 
 /*Requête affichage de tous les admins*/
-echo "Gestion des administrateur-ice-s";
+//echo "Gestion des administrateur-ice-s";
 $gestionAdmin = $bdd->query("SELECT * FROM `admin` WHERE `id` > 0");
-
-
 
 
 // $gestionAdmin->closeCursor(); DOIT ON FERMER ICI OU AILLEURS OU PAS DU TOUT
@@ -15,7 +13,11 @@ $gestionAdmin = $bdd->query("SELECT * FROM `admin` WHERE `id` > 0");
 ?>
 
 <!-- Tableau html pour update des admins -->
+
 <section style="padding:150px">
+
+<a class="btn btn" href="index-admin.php" role="button">Menu ADMIN</a>
+
   <table class="table">
    <thead>
     <tr>
@@ -35,16 +37,16 @@ $gestionAdmin = $bdd->query("SELECT * FROM `admin` WHERE `id` > 0");
     echo'<td>'.$donnees['email'].'</td>';
     echo'<td>'.$donnees['password'].'</td>';
     // FAIRE LE LIEN ENTRE LES DEUX FAUX BOUTONS ET LES FICHIERS AVEC LES REQUETES UPDATE
-    echo'<td> <a class="btn btn-primary" href="update-admin.php?id='.$donnees['id'].'"   role="button">Modifier</a></td>';
-    echo'<td> <a class="btn btn-danger" href="delete-admin.php" role="button">Supprimer</a></td>';
+    echo'<td> <a class="btn btn" href="update-admin.php?id='.$donnees['id'].'"   role="button">Modifier</a></td>';
+    echo'<td> <a class="btn btn" href="delete-admin.php?id='.$donnees['id'].'" role="button">Supprimer</a></td>';
     echo '</tr>';
   }
   ?>
   </table>
 </section>
 
+<?php
+include('footer.php');
+?>
 
-
-
-</section>
 
