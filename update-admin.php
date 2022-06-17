@@ -2,53 +2,38 @@
 include('connexion.php');
 include('header.php');
 // Insert new admin
-$password="";
+if(isset($_POST['submit'])  ) {
+    $id = $_POST['id'];
+    $pseudo = $_POST['pseudo'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    
+$sql= "UPDATE `admin` SET `pseudo`='$pseudo',`email`='$email',`password`='$password' WHERE `id`= '$id'";
 
-print_r($_GET);
-var_dump($_GET);
+$results = $bdd->query($sql);
 
+header("location:list-admin.php");
+}
 
 if(isset($_GET['id'])){
-    $pseudo = $_GET['pseudo'];
-    $email = $_GET['email'];
-    $password = $_GET['password'];
-$sql = SELECT `id`, `pseudo`, `email`, `password` FROM `admin` WHERE 1;
+$id = $_GET['id'];
+$formUpdateAdmin = $bdd->query("SELECT * FROM `admin` WHERE `id`= $id");
+$ok = $formUpdateAdmin->fetch();
 
-    // var_dump($_GET['id']);
-    // die('ici');
 }
-
-if(isset($_GET['submit'])  ) {
-    $pseudo = $_GET['pseudo'];
-    $email = $_GET['email'];
-    $password = $_GET['password'];
-    
-
-// UPDATE `admin` SET `id`='[value-1]',`pseudo`='[value-2]',`email`='[value-3]',`password`='[value-4]' WHERE 1
-// "insert into admin (pseudo, email, password) VALUES ('$pseudo','$email','$password')";
-$results = $bdd->query($sql);
-    if ($results) {
-        echo "ok";
-    } else {
-        die("erreur:");
-    }
-header("location:list-admin.php");   
-}
-
 ?>
-
 <section> <!--formulaire de modification des admins-->
-        <form action="update-admin.php" method="patch" style="padding:150px">
+        <form action="update-admin.php?id=<?php echo $ok['id'] ?>" method="post" style="padding:150px">
             <h2>Formulaire de modification d'admin</h2>
+            <label for="id">ID</label>
+            <input type="text" name="idvisible" value="<?php echo $ok['id'];?>" disabled>
+            <input type="hidden" name="id" value="<?php echo $ok['id'];?>">
             <label for="pseudo">Pseudo</label>
-            <input type="text" name="pseudo" placeholder="Entrez votre nouveau pseudo">
-
+            <input type="text" name="pseudo" value="<?php echo $ok['pseudo'];?>">
             <label for="email">Email</label>
-            <input type="email" name="email" placeholder="Entrez votre nouvel email">
-
+            <input type="email" name="email" value="<?php echo $ok['email'];?>">
             <label for="password">Mot de passe</label>
-            <input type="password" name="password" placeholder=<?="$password";?>>
-
+            <input type="password" name="password" value="<?php echo $ok['password'];?>">
             <button type="submit" name="submit">Modifier</button>
         </form>
 </section>

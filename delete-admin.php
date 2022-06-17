@@ -1,37 +1,35 @@
 <?php
 include('connexion.php');
 include('header.php');
-// Insert new admin
-print_r($_POST);
-if(isset($_POST['submit'])) {
-    $pseudo = $_POST['pseudo'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    
-$sql = "insert into admin (pseudo, email, password) VALUES ('$pseudo','$email','$password')";
+
+// Delete admin
+if(isset($_GET['id'])){
+$id = $_GET['id'];
+$sql = "SELECT `id`, `pseudo`, `email`, `password` FROM `admin` WHERE id=$id";
 $results = $bdd->query($sql);
-    if ($results) {
-        echo "ok";
-    } else {
-        die("erreur:");
-    }
-header("location:list-admin.php");   
+$donnees = $results->fetch();
 }
 
+if(isset($_POST['supprimer'])) {
+    $id = $_POST ['id'];
+$sql = "DELETE FROM `admin` WHERE id=$id";
+$results = $bdd->query($sql);
+header("location:list-admin.php");
+}
 ?>
 
 <section> <!--formulaire authentification des admins-->
-        <form action="add-admin.php" method="post" style="padding:150px">
-            <h2>Formulaire de création d'admin</h2>
+        <form action="delete-admin.php" method="post" style="padding:150px">
+            <h2>Formulaire de suppression d'admin</h2>
+            <label for="id">ID</label>
+            <input type="text" name="idvisible" value="<?php echo $donnees['id'];?>" disabled>
+            <input type="hidden" name="id" value="<?php echo $donnees['id'];?>">
             <label for="pseudo">Pseudo</label>
-            <input type="text" name="pseudo" placeholder="Créez votre pseudo">
-
+            <input type="text" name="pseudo" value="<?php echo $donnees['pseudo'];?>" disabled>
             <label for="email">Email</label>
-            <input type="email" name="email" placeholder="Entrez votre email">
-
+            <input type="email" name="email" value="<?php echo $donnees['email'];?>" disabled>
             <label for="password">Mot de passe</label>
-            <input type="password" name="password" placeholder="Entrez votre mot de passe">
-
-            <button type="submit" name="submit">Valider</button>
+            <input type="password" name="password" value="<?php echo $donnees['password'];?>" disabled>
+            <button type="submit" name="supprimer">Supprimer</button>
         </form>
 </section>
